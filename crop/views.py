@@ -1,13 +1,25 @@
 from django.shortcuts import render
+from .serializers import CrateSerializer, UserSerializer, SampleSerializer
 from django.contrib.auth.models import User
+from .models import Crate, Sample
 from rest_framework import generics, status
 from rest_framework.response import Response
 from django.contrib.auth.hashers import make_password
-from .serializers import CrateSerializer, UserSerializer
 from rest_framework import viewsets
-from .models import Crate
 
-class ListCrate(generics.ListCreateAPIView):
+
+class SampleList(viewsets.ModelViewSet):
+    queryset = Sample.objects.all()
+    serializer_class = SampleSerializer
+
+    def post(self,request):
+        serializer = SampleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ListCrate(viewsets.ModelViewSet):
     queryset = Crate.objects.all()
     serializer_class = CrateSerializer
     
@@ -27,3 +39,4 @@ class UserList(viewsets.ModelViewSet):
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+          
