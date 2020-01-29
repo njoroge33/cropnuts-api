@@ -1,0 +1,1 @@
+web: gunicorn cropnuts.wsgi --log-file -
