@@ -17,7 +17,7 @@ class Crate(models.Model):
 
 
 class Sample(models.Model):
-    crate = models.ForeignKey(Crate)
+    crate = models.ForeignKey(Crate, on_delete = models.CASCADE)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     batch_number = models.CharField(max_length=100)
     sample_type = models.CharField(max_length=100)
