@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
-from . import views
-# from .views import UserList, PostList, PictureList
+# from . import views
+from .views import UserList
 from rest_framework import routers
 from django.conf import settings
 from django.conf.urls.static import static
