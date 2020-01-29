@@ -29,18 +29,23 @@ DATABASES["default"].update(db_from_env)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 INSTALLED_APPS = [
-    "rest_framework.authtoken",
-    "rest_framework",
-    "crop",
+    "rest_framework.authtoken", #auth rest config
+    "rest_framework",   #rest config
+    "crop", #app config
+    'corsheaders', #cors config
+    'django_countries',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -50,6 +55,18 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:4200/'
+# )
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+    'https://localhost:4200',
+]
+
+
 
 
 ROOT_URLCONF = "cropnuts.urls"
