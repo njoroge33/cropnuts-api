@@ -9,12 +9,12 @@ class SampleSerializer(serializers.ModelSerializer):
         
 class CrateSerializer(serializers.ModelSerializer):
     class Meta:
+        model = Crate
         fields = (
             'id',
             'country',
             'year',
         )
-        model = Crate
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
