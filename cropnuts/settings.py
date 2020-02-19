@@ -29,6 +29,7 @@ DATABASES["default"].update(db_from_env)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 INSTALLED_APPS = [
+    'django_limits',
     "rest_framework.authtoken", #auth rest config
     "rest_framework",   #rest config
     "crop", #app config
@@ -41,9 +42,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     
+    
 ]
 
 MIDDLEWARE = [
+    'django_limits.middleware.LimitExceededMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -82,10 +85,15 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                
             ],
         },
     },
 ]
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.request",
+    "django.core.context_processors.static",
+  )
 
 WSGI_APPLICATION = "cropnuts.wsgi.application"
 
@@ -131,5 +139,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 django_heroku.settings(locals())

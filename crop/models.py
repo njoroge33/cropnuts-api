@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_limits.limiter import Limiter
+from django.db.models import Q
 import datetime
 
 # Create your models here.
@@ -25,3 +27,19 @@ class Sample(models.Model):
     description = models.TextField(max_length=300)
     receipt_date = models.DateField()
     archival_date = models.DateTimeField(auto_now_add=True)
+    
+    
+    
+    
+
+class MyLimiter(Limiter):
+    rules = {
+        Crate: [
+            {
+                'limit': 150,
+                'message': "Only 150 samples per crate allowed",
+                'filterset': Q(is_active=True)
+            },
+          
+        ]
+    }    
