@@ -9,7 +9,7 @@ for r in range(1980, (datetime.datetime.now().year+1)):
  
 class Crate(models.Model):
     country = models.CharField(max_length=40)
-    year = models.IntegerField(('year'), default=datetime.datetime.now().year)
+    year = models.CharField(max_length=40)
     
     def __str__(self):
        return f'{self.country}'
