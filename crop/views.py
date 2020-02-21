@@ -1,3 +1,5 @@
+import datetime
+from django.core import serializers
 from django.shortcuts import render
 from .serializers import CrateSerializer, UserSerializer, SampleSerializer
 from django.contrib.auth.models import User
@@ -66,3 +68,20 @@ def login(request):
                 token = RefreshToken.for_user(users)
                 return JsonResponse({'message':'loggedin!!', 'token': str(token.access_token), 'status':status.HTTP_200_OK})
     return Response('bad credentials', status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['GET', 'POST'])
+def report(request):
+
+    if request.method == "POST":
+        data = request.data
+        print(request.data.get('start'))
+        start = data.get('start')
+        year1, month1, day1 = start.split('-')
+        end = data.get('end')
+        year2, month2, day2 = end.split('-')
+        result = Sample.objects.filter(archival_date__gte=datetime.date(int(year1), int(month1), int(day1)),
+                                archival_date__lte=datetime.date(int(year2), int(month2), int(day2)))
+        serializer = SampleSerializer(result, many=True)
+        p=serializer.data
+        return Response(p, status=status.HTTP_200_OK)
+    return Response('bad request', status=status.HTTP_400_BAD_REQUEST)
