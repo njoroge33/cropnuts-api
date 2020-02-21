@@ -29,21 +29,22 @@ DATABASES["default"].update(db_from_env)
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 INSTALLED_APPS = [
-    "rest_framework.authtoken", #auth rest config
-    "rest_framework",   #rest config
-    "crop", #app config
-    'corsheaders', #cors config
-    'django_countries',
+    "rest_framework.authtoken",
+    "rest_framework",
+    "crop",
+    "corsheaders",
+    # "django_limits",
+    "django_countries",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
 ]
 
 MIDDLEWARE = [
+    # "django_limits.middleware.LimitExceededMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -63,10 +64,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    'https://localhost:4200',
+    "https://localhost:4200",
 ]
-
-
 
 
 ROOT_URLCONF = "cropnuts.urls"
@@ -92,9 +91,15 @@ WSGI_APPLICATION = "cropnuts.wsgi.application"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
 }
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ],
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
